@@ -1,12 +1,13 @@
-package com.example.POC;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PocApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PocApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
+	
 }

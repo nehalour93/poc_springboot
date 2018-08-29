@@ -1,8 +1,10 @@
-package com.example.POC.model;
+package com.example.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -11,11 +13,26 @@ public class User {
 	@GeneratedValue
 	private int id;
 
+	@NotNull
 	private String name;
 	
+	@NotNull
 	private String userType;
 	
 	private String accountStatus;
+	
+
+	public User() {
+		super();
+	}
+
+	public User(int id, String name, String userType, String accountStatus) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.userType = userType;
+		this.accountStatus = accountStatus;
+	}
 
 	public String getAccountStatus() {
 		return accountStatus;

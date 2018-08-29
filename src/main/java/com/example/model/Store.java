@@ -1,4 +1,4 @@
-package com.example.POC.model;
+package com.example.model;
 
 import java.util.Set;
 import javax.persistence.*;
@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Store {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 
 	private String storeName;

@@ -1,8 +1,9 @@
-package com.example.POC.model;
+package com.example.model;
 
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -10,7 +11,7 @@ import javax.persistence.ManyToMany;
 public class Payment {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 
 	private String paymentType;
