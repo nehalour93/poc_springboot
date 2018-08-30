@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.UserDto;
 import com.example.model.User;
@@ -31,31 +30,33 @@ public class UserController {
 
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
+	
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	@ResponseBody
-	public UserDto createUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto>  createUser(@RequestBody UserDto userDto) {
 		logger.info("creating user");
 		User user = conversion.convertToUserEntity(userDto);
-		User userCreated = userService.save(user);
-		return conversion.convertToUserDto(userCreated);
+		userService.save(user);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void updateUser(@RequestBody UserDto userDto, @PathVariable("id") int id) {
-		User userToBeUpdated = userService.findById(id);
-		if (userToBeUpdated != null) {
-			User user = conversion.convertToUserEntity(userDto);
-			userService.save(user);
-		}
-	}
+	
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+   	public ResponseEntity<UserDto>  updateUser(@RequestBody UserDto payload){
+    	User user1 = conversion.convertToUserEntity(payload);
+    	userService.getById(payload.getId());
+    	userService.save(user1);
+		return new ResponseEntity<>(HttpStatus.OK);
+   	}
 
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public UserDto getUser(@PathVariable("id") int id) {
-		return conversion.convertToUserDto(userService.getById(id));
+	public ResponseEntity<UserDto> getUser(@PathVariable("id") int id) {
+		UserDto userDto = conversion.convertToUserDto(userService.getById(id));
+		return new ResponseEntity<>(userDto,HttpStatus.FOUND);
+		
 	}
+	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseBody
@@ -68,13 +69,14 @@ public class UserController {
 		logger.info("userlist");
 		return userlist;
 	}
-	
+
 	@RequestMapping(value = "/{userType}", method = RequestMethod.POST)
-	public ResponseEntity<UserDto> accountStatus(@PathVariable("userType") String userType, @RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> accountStatus(@PathVariable("userType") String userType,
+			@RequestBody UserDto userDto) {
 		User user = conversion.convertToUserEntity(userDto);
-		userService.updateAccountStatus(userType,user);
+		userService.updateAccountStatus(userType, user);
 		return new ResponseEntity<>(userDto, HttpStatus.OK);
-		
+
 	}
 
 }

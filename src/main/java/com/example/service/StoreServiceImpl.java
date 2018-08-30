@@ -19,12 +19,9 @@ public class StoreServiceImpl implements StoreService {
 	private UserRepository userRepository;
 
 	@Override
-	public Store getById(int id) {
-		if (storeRepository.findById(id) != null)
-			throw new CustomException("store with id " + id + " does not exist");
+	public Store getById(long id) {
 		return storeRepository.getOne(id);
 	}
-	
 
 	@Override
 	public List<Store> findAll() {
@@ -56,7 +53,7 @@ public class StoreServiceImpl implements StoreService {
 				storeUpdated.add(s);
 			else {
 				throw new CustomException(
-						"Unable to update store for Id " + s.getId() + " since store with this Id does not exist.");
+				"Unable to update store for Id " + s.getId() + " since store with this Id does not exist.");
 			}
 
 		}

@@ -1,44 +1,23 @@
 package com.example.model;
 
-import java.util.Date;
-
 public class ErrorDetails {
-	private Date timestamp;
+	
+	private int errorCode;
 	private String message;
-	private String details;
 
-	public ErrorDetails(Date timestamp, String message, String details) {
-		super();
-		this.timestamp = timestamp;
-		this.message = message;
-		this.details = details;
+	public int getErrorCode() {
+		return errorCode;
 	}
 
-	public ErrorDetails() {
-		super();
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public String getDetails() {
-		return details;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

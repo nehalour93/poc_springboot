@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.example.model.Store;
 
 @Repository("StoreRepository")
-public interface StoreRepository extends JpaRepository<Store, Integer> {
+public interface StoreRepository extends JpaRepository<Store, Long> {
 
 }

@@ -38,7 +38,7 @@ public class StoreController {
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public StoreDto createStore(@RequestBody StoreDto storeDto) {
+	public StoreDto createStore(@RequestBody StoreDto storeDto) throws CustomException {
 		Store storeCreated = null;
 		Store store = conversion.convertToStoreEntity(storeDto);
 		if (userService.getById(store.getMerchantId()) != null)

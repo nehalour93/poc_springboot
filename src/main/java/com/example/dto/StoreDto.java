@@ -15,13 +15,9 @@ public class StoreDto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private long id;
 
-	private String storeName;
-
-	private int merchantId;
-
-	public StoreDto(int id, String storeName, int merchantId, Set<Payment> payments) {
+	public StoreDto(long id, String storeName, long merchantId, Set<Payment> payments) {
 		super();
 		this.id = id;
 		this.storeName = storeName;
@@ -29,17 +25,29 @@ public class StoreDto {
 		this.payments = payments;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "store_payment", joinColumns = @JoinColumn(name = "storeId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "paymentId", referencedColumnName = "id"))
-	private Set<Payment> payments;
-
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
+
+	public long getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	private String storeName;
+
+	private long merchantId;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "store_payment", joinColumns = @JoinColumn(name = "storeId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "paymentId", referencedColumnName = "id"))
+	private Set<Payment> payments;
 
 	public String getStoreName() {
 		return storeName;
@@ -47,14 +55,6 @@ public class StoreDto {
 
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
-	}
-
-	public int getMerchantId() {
-		return merchantId;
-	}
-
-	public void setMerchantId(int merchantId) {
-		this.merchantId = merchantId;
 	}
 
 	public Set<Payment> getPayments() {

@@ -14,7 +14,7 @@ public interface StoreService {
 	
 	List<Store> saveAll(List<Store> stores);
 
-	Store getById(int id);
+	Store getById(long id);
 	
 	Store update(Store store);
 

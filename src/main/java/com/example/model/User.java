@@ -11,11 +11,28 @@ public class User {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 
 	@NotNull
 	private String name;
 	
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public User(long id, @NotNull String name, @NotNull String userType, String accountStatus) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.userType = userType;
+		this.accountStatus = accountStatus;
+	}
+
 	@NotNull
 	private String userType;
 	
@@ -26,13 +43,6 @@ public class User {
 		super();
 	}
 
-	public User(int id, String name, String userType, String accountStatus) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.userType = userType;
-		this.accountStatus = accountStatus;
-	}
 
 	public String getAccountStatus() {
 		return accountStatus;
@@ -50,13 +60,9 @@ public class User {
 		this.userType = userType;
 	}
 
-	public int getId() {
-		return id;
-	}
+	
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 
 	public String getName() {

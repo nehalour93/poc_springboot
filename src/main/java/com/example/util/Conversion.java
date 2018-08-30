@@ -22,19 +22,15 @@ public class Conversion {
 	public static final Logger logger = LoggerFactory.getLogger(Conversion.class);
 	
 	public UserDto convertToUserDto(User user) {
-		logger.info("inside userDto");
 		UserDto userDto = modelMapper.map(user, UserDto.class);
 		userDto.setId(user.getId());
 		userDto.setName(user.getName());
 		userDto.setUserType(user.getAccountStatus());
 		userDto.setAccountStatus(user.getAccountStatus());
-		logger.info("exiting userDto");
 		return userDto;
 	}
 
 	public User convertToUserEntity(UserDto userDto) {
-		logger.info("inside userentity");
-		System.out.println(userDto.getId()+ " " +userDto.getName());
 		User user = modelMapper.map(userDto, User.class);
 		user.setId(userDto.getId());
 		user.setName(userDto.getName());

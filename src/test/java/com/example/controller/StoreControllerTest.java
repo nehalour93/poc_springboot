@@ -1,13 +1,13 @@
-package com.example.controller;
+/*package com.example.controller;
+
 
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import java.util.Set;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -26,19 +26,21 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.example.controller.UserController;
+import com.example.model.Payment;
+import com.example.model.Store;
 import com.example.model.User;
-import com.example.service.UserService;
+import com.example.service.StoreService;
 import com.example.util.Conversion;
 import org.json.JSONObject;
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = UserController.class, secure = false)
-public class UserControllerTest {
+@WebMvcTest(value = StoreController.class, secure = false)
+public class StoreControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private UserService userService;
+	private StoreService storeService;
 	
 	@MockBean
 	private Conversion conversion;
@@ -46,7 +48,9 @@ public class UserControllerTest {
 	public static final Logger logger = LoggerFactory.getLogger(UserControllerTest.class);
 	
 
-	User mockUser = new User(1, "Neha", "admin", "ACTIVATED");
+	Store mockStore = new Store(1, "More", 2 , Arrays.asList(""));
+	
+	int id, String storeName, int merchantId, Set<Payment> payments
 
 	String exampleUserJson = "{\"id\":4,\"name\":\"Neha\",\"userType\":\"admin\",\"accountStatus\":\"ACTIVATED\"}";
 
@@ -60,7 +64,7 @@ public class UserControllerTest {
 		
 
 		// Send user as body to /api/user/
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/user/").accept(MediaType.APPLICATION_JSON)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/user/").accept(MediaType.APPLICATION_JSON)
 				.content(exampleUserJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -88,6 +92,27 @@ public class UserControllerTest {
 	}
 	
 
+	public void retrieveUserDetails() throws Exception {
+
+		Mockito.when(
+				userService.retrieveCourse(Mockito.anyString(),
+						Mockito.anyString())).thenReturn(mockCourse);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+				"/students/Student1/courses/Course1").accept(
+				MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		System.out.println(result.getResponse());
+		String expected = "{id:Course1,name:Spring,description:10 Steps}";
+
+		// {"id":"Course1","name":"Spring","description":"10 Steps, 25 Examples and 10K Students","steps":["Learn Maven","Import Project","First Example","Second Example"]}
+
+		JSONAssert.assertEquals(expected, result.getResponse()
+				.getContentAsString(), false);
+	}
+
 	@Test
 	public void updateUser() throws Exception {
 		User mockUser = new User(1, "Neha", "admin", "ACTIVATED");
@@ -97,7 +122,7 @@ public class UserControllerTest {
 		Mockito.when(userService.save(Mockito.any(User.class))).thenReturn(mockUser);
 
 		// Send user as body to /api/user/
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/user/").accept(MediaType.APPLICATION_JSON)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/user/1").accept(MediaType.APPLICATION_JSON)
 				.content(exampleUserJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -107,14 +132,12 @@ public class UserControllerTest {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 
 	}
-	@Test 
-	public void retrieveAllUserDetails() throws Exception {
+
+	@Test public void retrieveAllUserDetails() throws Exception {
 	  
-		 List<User> user1 = Arrays.asList(
-		            new User(1, "Neha","admin","ACTIVATED"),
-		            new User(2, "abc","merchant","DEACTIVATED"));
+	  List<User> users = new ArrayList<>();
 	  
-	  Mockito.when(userService.findAll()).thenReturn(user1);
+	  Mockito.when(userService.findAll()).thenReturn(users);
 	  
 	  RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/user/").accept(MediaType.
 	  APPLICATION_JSON);
@@ -122,14 +145,13 @@ public class UserControllerTest {
 	  MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 	  
 	  System.out.println(result.getResponse()); 
-	 
-	 
-	 List<User> user = Arrays.asList(
-	            new User(1,"Neha","admin","ACTIVATED"),
-	            new User(2,"abc","merchant","DEACTIVATED"));
-	           
 	  
-	  JSONAssert.assertEquals(user.toString(),result.getResponse().getContentAsString(), false); 
+	 String expected = "{id:1,name:Neha,userType:admin,accountStatus:ACTIVATED}";
+	 JSONObject jsonObject = new JSONObject(expected);
+	  
+	  JSONAssert.assertEquals(expected,result.getResponse().getContentAsString(), false); 
 	  }
 
 }
+
+*/

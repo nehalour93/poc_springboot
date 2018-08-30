@@ -10,7 +10,7 @@ public class UserDto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private long id;
 
 	@NotNull
 	@NotEmpty
@@ -23,15 +23,16 @@ public class UserDto {
 	public UserDto() {
 		super();
 	}
-	
-	public UserDto(int id, String name, String userType) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.userType = userType;
+
+	public String getName() {
+		return name;
 	}
 
-	public UserDto(int id, String name, String userType, String accountStatus) {
+	public long getId() {
+		return id;
+	}
+
+	public UserDto(long id, @NotNull @NotEmpty String name, String userType, String accountStatus) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,16 +40,8 @@ public class UserDto {
 		this.accountStatus = accountStatus;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public void setName(String name) {

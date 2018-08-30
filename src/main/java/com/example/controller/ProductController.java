@@ -38,7 +38,7 @@ public class ProductController {
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public ProductDto createProduct(@RequestBody ProductDto productDto) {
+	public ProductDto createProduct(@RequestBody ProductDto productDto) throws CustomException {
 		Product  productCreated = null;
 		Product product = conversion.convertToProductEntity(productDto);
 		if (storeService.getById(product.getProdStoreId()) != null)

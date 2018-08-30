@@ -18,15 +18,18 @@ public class UserServiceImpl implements UserService {
 	public static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@Override
-	public User getById(int id) {
-		if (userRepository.findById(id) != null)
-			throw new CustomException("user with id " + id + " does not exist");
-		return userRepository.getOne(id);
-
+	public User getById(long id)  {
+		logger.info("inside getbyid " +userRepository.getOne(id));
+		User user = userRepository.getOne(id);
+		if(user == null)
+			throw new CustomException("No user found");
+		else {
+		return user;
+		}
 	}
-
+	
 	@Override
-	public List<User> findAll() {
+	public List<User> findAll()  {
 		logger.info("getting all users");
 		List<User> users = userRepository.findAll();
 		if (users.isEmpty()) {
@@ -38,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(User user) {
+	public User save(User user)  {
 		if (user.getName().equals("")) {
 			throw new CustomException("name cannot be null");
 		} else if (user.getUserType().equalsIgnoreCase("admin")) {
@@ -50,9 +53,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateAccountStatus(String userType, User user) {
+	public User updateAccountStatus(String userType, User user){
 		if (userType.equalsIgnoreCase("admin")) {
-			int id = user.getId();
+			long id = user.getId();
 			if (getById(id) == null)
 				throw new CustomException("Unable to Update. A User with id " + id + " doesn't exist.");
 			else {
@@ -64,13 +67,6 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@Override
-	public User findById(int id) {
-		if (userRepository.findById(id) == null) {
-			throw new CustomException("user with id " + id + " does not exist");
-		}
-		return userRepository.getOne(id);
-	}
 
 
 }

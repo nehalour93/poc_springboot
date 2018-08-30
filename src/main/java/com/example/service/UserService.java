@@ -5,15 +5,13 @@ import org.springframework.stereotype.Service;
 import com.example.model.User;
 
 @Service
-public interface UserService {
+public interface UserService  {
 
 	List<User> findAll();
 	
-	User findById(int id);
-
 	User save(User user);
 
-	User getById(int id);
+	User getById(long id);
 
 	User updateAccountStatus(String userType, User user);
 
