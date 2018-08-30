@@ -10,23 +10,38 @@ public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int productId;
+	private long productId;
 	
 	private String productName;
 	
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+
+	public Product(long productId, String productName, int price, int prodStoreId, int prodMerchantId) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+		this.prodStoreId = prodStoreId;
+		this.prodMerchantId = prodMerchantId;
+	}
+
+	public Product() {
+		super();
+	}
+
 	private int price;
 	
 	private int prodStoreId;
 	
 	private int prodMerchantId;
 	
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
+	
 
 	public String getProductName() {
 		return productName;

@@ -1,13 +1,8 @@
 package com.example.controller;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -29,7 +24,7 @@ import com.example.controller.UserController;
 import com.example.model.User;
 import com.example.service.UserService;
 import com.example.util.Conversion;
-import org.json.JSONObject;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = UserController.class, secure = false)
 public class UserControllerTest {

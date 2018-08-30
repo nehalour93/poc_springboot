@@ -25,6 +25,10 @@ public class StoreDto {
 		this.payments = payments;
 	}
 
+	public StoreDto() {
+		super();
+	}
+
 	public long getId() {
 		return id;
 	}

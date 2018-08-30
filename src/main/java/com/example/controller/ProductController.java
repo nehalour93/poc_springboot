@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.ProductDto;
+import com.example.dto.StoreDto;
 import com.example.exception.CustomException;
 import com.example.model.Product;
+import com.example.model.Store;
 import com.example.service.ProductService;
 import com.example.service.StoreService;
 import com.example.util.Conversion;
@@ -35,10 +38,10 @@ public class ProductController {
 
 	public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/create", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public ProductDto createProduct(@RequestBody ProductDto productDto) throws CustomException {
+	public ProductDto createProduct(@RequestBody ProductDto productDto) {
 		Product  productCreated = null;
 		Product product = conversion.convertToProductEntity(productDto);
 		if (storeService.getById(product.getProdStoreId()) != null)
@@ -51,14 +54,12 @@ public class ProductController {
 	}
 
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void updateProduct(@RequestBody ProductDto productDto, @PathVariable("id") int id) {
-		Product productToBeUpdated = productService.getById(id);
-		if (productToBeUpdated != null) {
-			Product product = conversion.convertToProductEntity(productDto);
-			productService.update(product);
-		}
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto payload) {
+		Product product = conversion.convertToProductEntity(payload);
+		productService.getById(payload.getProductId());
+		productService.save(product);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

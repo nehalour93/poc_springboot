@@ -15,33 +15,29 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	public static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Override
-	public User getById(long id)  {
-		logger.info("inside getbyid " +userRepository.getOne(id));
+	public User getById(long id) {
+		logger.info("inside getbyid " + userRepository.getOne(id));
 		User user = userRepository.getOne(id);
-		if(user == null)
-			throw new CustomException("No user found");
+		if (user == null)
+			throw new CustomException("No user with id " + id + " found");
 		else {
-		return user;
+			return user;
 		}
 	}
-	
+
 	@Override
-	public List<User> findAll()  {
-		logger.info("getting all users");
+	public List<User> findAll() {
 		List<User> users = userRepository.findAll();
-		if (users.isEmpty()) {
-			logger.info("getting all users1");
+		if (users.isEmpty())
 			throw new CustomException("User not found");
-		}
-		logger.info("getting all users2");
 		return users;
 	}
 
 	@Override
-	public User save(User user)  {
+	public User save(User user) {
 		if (user.getName().equals("")) {
 			throw new CustomException("name cannot be null");
 		} else if (user.getUserType().equalsIgnoreCase("admin")) {
@@ -53,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateAccountStatus(String userType, User user){
+	public User updateAccountStatus(String userType, User user) {
 		if (userType.equalsIgnoreCase("admin")) {
 			long id = user.getId();
 			if (getById(id) == null)
@@ -66,7 +62,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return user;
 	}
-
-
 
 }

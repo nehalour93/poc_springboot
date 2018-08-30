@@ -20,6 +20,10 @@ public class Store {
 		this.payments = payments;
 	}
 
+	public Store() {
+		super();
+	}
+
 	public long getId() {
 		return id;
 	}

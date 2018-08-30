@@ -30,43 +30,37 @@ public class UserController {
 
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<UserDto>  createUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
 		logger.info("creating user");
 		User user = conversion.convertToUserEntity(userDto);
 		userService.save(user);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-   	public ResponseEntity<UserDto>  updateUser(@RequestBody UserDto payload){
-    	User user1 = conversion.convertToUserEntity(payload);
-    	userService.getById(payload.getId());
-    	userService.save(user1);
+	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto payload) {
+		User user1 = conversion.convertToUserEntity(payload);
+		userService.getById(payload.getId());
+		userService.save(user1);
 		return new ResponseEntity<>(HttpStatus.OK);
-   	}
+	}
 
-	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UserDto> getUser(@PathVariable("id") int id) {
 		UserDto userDto = conversion.convertToUserDto(userService.getById(id));
-		return new ResponseEntity<>(userDto,HttpStatus.FOUND);
-		
+		return new ResponseEntity<>(userDto, HttpStatus.FOUND);
+
 	}
-	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseBody
 	public List<UserDto> getAllUsersList() {
 		logger.info("getting users list");
 		List<User> users = userService.findAll();
-		logger.info("return");
 		List<UserDto> userlist = users.stream().map(user -> conversion.convertToUserDto(user))
 				.collect(Collectors.toList());
-		logger.info("userlist");
 		return userlist;
 	}
 

@@ -1,6 +1,8 @@
 package com.example.service;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.exception.CustomException;
@@ -13,11 +15,17 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	public static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
 	@Override
-	public Product getById(int id) {
-		if (productRepository.findById(id) != null)
+	public Product getById(long id) {
+		logger.info("inside getbyid " + productRepository.getOne(id));
+		Product product = productRepository.getOne(id);
+		if (product == null)
 			throw new CustomException("product with id " + id + " does not exist");
-		return productRepository.getOne(id);
+		else {
+			return product;
+		}
 	}
 
 	@Override
@@ -31,15 +39,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product save(Product product) {
-		if (product.getProductName() == "") {
+		if (product.getProductName().equals("")) {
 			throw new CustomException("name cannot be null");
 		}
 		return productRepository.save(product);
 	}
 
-	@Override
-	public Product update(Product product) {
-		return productRepository.save(product);
-	}
 
 }

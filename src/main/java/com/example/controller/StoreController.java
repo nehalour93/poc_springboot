@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.dto.StoreDto;
+import com.example.dto.UserDto;
 import com.example.exception.CustomException;
 import com.example.model.Store;
+import com.example.model.User;
 import com.example.service.StoreService;
 import com.example.service.UserService;
 import com.example.util.Conversion;
@@ -35,10 +38,10 @@ public class StoreController {
 
 	public static final Logger logger = LoggerFactory.getLogger(StoreController.class);
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public StoreDto createStore(@RequestBody StoreDto storeDto) throws CustomException {
+	public StoreDto createStore(@RequestBody StoreDto storeDto) {
 		Store storeCreated = null;
 		Store store = conversion.convertToStoreEntity(storeDto);
 		if (userService.getById(store.getMerchantId()) != null)
@@ -50,7 +53,7 @@ public class StoreController {
 		return conversion.convertToStoreDto(storeCreated);
 	}
 
-	@RequestMapping(value = "/stores/", method = RequestMethod.POST)
+	@RequestMapping(value = "/createStores", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public List<StoreDto> createStores(@RequestBody List<StoreDto> storesDto) {
@@ -59,18 +62,16 @@ public class StoreController {
 		List<Store> storeCreated = storeService.saveAll(store);
 		return storeCreated.stream().map(st -> conversion.convertToStoreDto(st)).collect(Collectors.toList());
 	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void updateStore(@RequestBody StoreDto storeDto, @PathVariable("id") int id) {
-		Store storeToBeUpdated = storeService.getById(id);
-		if (storeToBeUpdated != null) {
-			Store store = conversion.convertToStoreEntity(storeDto);
-			storeService.update(store);
-		}
+
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public ResponseEntity<StoreDto> updateStore(@RequestBody StoreDto payload) {
+		Store store1 = conversion.convertToStoreEntity(payload);
+		storeService.getById(payload.getId());
+		storeService.save(store1);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/stores/", method = RequestMethod.PUT)
+
+	@RequestMapping(value = "/updateStores", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public List<StoreDto> updateStores(@RequestBody List<StoreDto> storesDto) {
@@ -79,19 +80,21 @@ public class StoreController {
 		List<Store> storeCreated = storeService.saveAll(store);
 		return storeCreated.stream().map(st -> conversion.convertToStoreDto(st)).collect(Collectors.toList());
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public StoreDto getStore(@PathVariable("id") int id) {
-		return conversion.convertToStoreDto(storeService.getById(id));
+	public ResponseEntity<StoreDto> getUser(@PathVariable("id") int id) {
+		StoreDto storeDto = conversion.convertToStoreDto(storeService.getById(id));
+		return new ResponseEntity<>(storeDto, HttpStatus.FOUND);
+
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseBody
 	public List<StoreDto> getAllStoresList() {
 		List<Store> stores = storeService.findAll();
-		return stores.stream().map(store -> conversion.convertToStoreDto(store))
+		List<StoreDto> storelist = stores.stream().map(store -> conversion.convertToStoreDto(store))
 				.collect(Collectors.toList());
+		return storelist;
 	}
 
 }
